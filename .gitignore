@@ -1,0 +1,13 @@
+/backend/bin/
+/backend/node_modules/
+/backend/public/
+/backend/views/
+/backend/package-lock.json
+/backend/jsons/
+
+/frontend/build/
+/frontend/config/
+/frontend/node_modules/
+/frontend/static/
+/frontend/.*
+/frontend/package-lock.json
