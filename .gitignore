@@ -11,3 +11,5 @@
 /frontend/static/
 /frontend/.*
 /frontend/package-lock.json
+
+web_app_vote.code-workspace
