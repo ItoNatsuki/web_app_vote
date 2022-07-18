@@ -1,26 +1,12 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <button @click="post">clickMe</button>
+  <div id="app">
+    <router-view/>
   </div>
+    
+
 </template>
 
 <script>
-import Methods from '../api/method'
-export default {
-  name: 'Hello',
-  data(){
-    return{
-      msg:'Welcome to Your Vue.js App'
-    }
-  },
-  methods:{
-    async post(){
-      let response = await Methods.testPosting()
-      console.log(response)
-    }
-  }
-}
 </script>
 
 <style>
