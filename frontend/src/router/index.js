@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import createQuestions from '@/components/view/createQuestions'
-import voteQuestion from '@/components/view/voteQuestion'
-import createQuestion from '@/components/view/createQuestion'
-import vote from '@/components/view/vote'
+import createQuestions from '@/components/pages/createQuestions'
+import voteQuestion from '@/components/pages/voteQuestion'
+import createQuestion from '@/components/pages/createQuestion'
+import vote from '@/components/pages/vote'
 
 Vue.use(Router)
 
