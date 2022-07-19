@@ -1,25 +1,24 @@
 <template>
     <div id="choiceList">
-        <div v-for="(choice,index) in choiceList">
-            <input type="text" v-model="choice.value">
-            <button @click="deleteChoice(index)">削除</button>
+        <div v-for="(choice,index) in choiceList" :key="choice.value">
+            <input type="text" :value = choice.value @input="inputAtt($event,index)" >
+            <button @click="deleteChoice(index)">削除{{index}}</button>
         </div>
         <button @click="addChoice">追加</button>
     </div>
 </template>
 <script>
 export default {
-    data(){
-        return{
-            choiceList:[{value:""},{value:""}]
-        }
-    },
+    props:['choiceList'],
     methods:{
         addChoice(){
-            this.choiceList.push({value:""});
+            this.$emit("addChoice");
         },
         deleteChoice(index){
-            this.choiceList.splice(index,1);
+            this.$emit("deleteChoice",index)
+        },
+        inputAtt(e,index){
+            this.$emit("inputAtt",index,e.target.value)
         }
     }
 }
