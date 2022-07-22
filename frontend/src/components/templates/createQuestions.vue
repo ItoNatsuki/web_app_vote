@@ -12,8 +12,8 @@ export default{
         inputQuestions
     },
     methods:{
-        submitQuestion(...array){
-            console.log(array);
+        submitQuestion(payload){
+            this.$emit("submitQuestion",payload);
         }
     }
 }
