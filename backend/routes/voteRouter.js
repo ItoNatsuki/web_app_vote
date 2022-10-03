@@ -13,11 +13,11 @@ router.put('/add/:id', (req, res, next) => {
         fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.send(questionJson);
     } catch (err) {
-        console.log(err);
+        res.status(400).send(err);
     }
 });
 router.put('/sub/:id', (req, res, next) => {
-   
+    
     try {
         const questionJson = fileLeader(req.params.id);
         if (questionJson.questions[0].choices[req.body.id].count > 0) {
@@ -28,7 +28,7 @@ router.put('/sub/:id', (req, res, next) => {
         fs.writeFileSync(`${jsonsLocation}${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.send(questionJson);
     } catch (err) {
-        console.log(err);
+        res.status(400).send(err);
     }
 })
 

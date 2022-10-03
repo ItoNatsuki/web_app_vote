@@ -41,7 +41,7 @@ router.get('/:id', (req, res, next) => {
         //httpヘッダーのcontent-typeがjsonで送信される
         res.json(questionJson);
     } catch (err) {
-        console.log(err);
+        res.status(404).send("質問データが存在しない。もしくは、既に削除されています");
     }
 });
 router.delete('/:id',(req,res,next) =>{
@@ -50,7 +50,7 @@ router.delete('/:id',(req,res,next) =>{
         console.log(`${req.params.id}.jsonを削除しました`)
         res.status(200).send();
     }catch(err){
-        console.log(err);
+        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。");
     }
 })
 module.exports = router;
