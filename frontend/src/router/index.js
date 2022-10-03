@@ -17,7 +17,7 @@ export default new Router({
     {
       path:'/question/vote/:id',
       name: 'voteQuestioner',
-      component: voteQuestion
+      component: voteQuestion,
     },
     {
       path:'/question/:id',

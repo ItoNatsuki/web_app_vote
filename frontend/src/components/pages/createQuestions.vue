@@ -15,7 +15,10 @@ export default{
                 title:payload.title,
                 choice:payload.choice
             })
-            .then(response=>console.log(response))
+            .then(response=>{
+                const questionsId = response.data.questionsId;
+                window.location.href = `http://localhost:8080/#/question/vote/${questionsId}`
+            })
             .catch(error=>console.log(error));
         }
     }

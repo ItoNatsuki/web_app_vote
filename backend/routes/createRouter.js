@@ -44,4 +44,13 @@ router.get('/:id', (req, res, next) => {
         console.log(err);
     }
 });
+router.delete('/:id',(req,res,next) =>{
+    try{
+        fs.unlinkSync(`jsons\\${req.params.id}.json`);
+        console.log(`${req.params.id}.jsonを削除しました`)
+        res.status(200).send();
+    }catch(err){
+        console.log(err);
+    }
+})
 module.exports = router;
