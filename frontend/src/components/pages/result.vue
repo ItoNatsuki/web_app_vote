@@ -1,9 +1,6 @@
 <template>
     <div>
         <resultBody :questions="questions" @refreshClick="refreshClick"/>
-        <div id="buttonsQ">
-            <button id="newQ" @click="newQ">新しい質問を作成する</button>
-        </div>
     </div>
 </template>
 
@@ -45,18 +42,11 @@ import resultBody from '@/components/molecules/resultBody'
             const questionsData = response.data;
             this.questions = questionsData.questions[0];
         })
-        },
-        newQ(){
-            window.location.href = `http://localhost:8080/#/`;
         }
     }
 }
 </script>
 
 <style scoped>
-#buttonsQ{
-    display:flex;
-    justify-content: center;
-    margin-top:2%;
-}
+
 </style>

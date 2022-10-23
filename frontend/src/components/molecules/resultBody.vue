@@ -2,11 +2,11 @@
 <div id="voteBody">
     <h1 id="result">集計結果</h1>
     <h2 id="title">質問：{{questions.title}}</h2>
-    <resultButtons id="voteButtons" :choices="questions.choices" @voteObj = "voteObj" />
+    <resultButtons id="voteButtons" :choices="questions.choices" />
     <br>
     <div id="buttons">
     <button id="refresh" @click="refreshClick">更新</button>
-    <button id="qr">QRコード表示</button>
+    <modalQR/>
     </div>
 
 </div>
@@ -15,10 +15,11 @@
 
 <script>
 import resultButtons from '@/components/molecules/resultButtons'
-
+import modalQR from '@/components/molecules/modalQR'
 export default {
     components:{
         resultButtons,
+        modalQR
         
     },
     props:['questions'],
@@ -46,7 +47,7 @@ export default {
     flex-wrap:wrap;
     justify-content: center;
 }
-#refresh,#qr{
-    margin-left:2%;
+#refresh{
+    margin-right:2%;
 }
 </style>

@@ -9,6 +9,7 @@ const DEFAULT_SETTINGS = {
     "test2": true,
     "test3": true
 }
+const jsonsLocation = `jsons/`
 //http://localhost:3000/のミドルウェア群
 //質問作成
 router.post('/create', (req, res, next) => {
@@ -58,6 +59,7 @@ router.post('/deadline/:id',(req,res,next)=>{
     try{
         const questionJson = fileLeader(req.params.id);
         questionJson.questions[0].deadlineFlag = true;
+        fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.status(200).send();
     }catch(err){
         res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")

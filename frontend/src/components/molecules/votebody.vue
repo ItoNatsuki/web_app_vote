@@ -5,7 +5,7 @@
     <br>
     <div id="buttons">
     <button id="refresh" @click="refreshClick">更新</button>
-    <button id="qr">QRコード表示</button>
+    <modalQR/>
     </div>
 
 </div>
@@ -14,11 +14,11 @@
 
 <script>
 import voteButtons from '@/components/molecules/voteButtons'
-
+import modalQR from '@/components/molecules/modalQR'
 export default {
     components:{
         voteButtons,
-        
+        modalQR
     },
     props:['questions'],
     methods:{
@@ -45,7 +45,7 @@ export default {
     flex-wrap:wrap;
     justify-content: center;
 }
-#refresh,#qr{
-    margin-left:2%;
+#refresh{
+    margin-right:2%;
 }
 </style>

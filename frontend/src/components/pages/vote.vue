@@ -21,6 +21,9 @@ export default{
             .then(response=>{
                 const questionsData = response.data;
                 this.questions = questionsData.questions[0];
+                if(this.questions.deadlineFlag){
+                    window.location.href = `http://localhost:8080/#/vote/result/${this.$route.params.id}`
+                }
             })
             .catch(error=>console.log(error));
     },
@@ -31,6 +34,9 @@ export default{
         .then(response=>{
             const questionsData = response.data;
             this.questions = questionsData.questions[0];
+            if(this.questions.deadlineFlag){
+                window.location.href = `http://localhost:8080/#/vote/result/${this.$route.params.id}`
+            }
         })},3000)
     },
     //ページ遷移時、setInterval削除
@@ -61,6 +67,9 @@ export default{
         .then(response=>{
             const questionsData = response.data;
             this.questions = questionsData.questions[0];
+                if(this.questions.deadline){
+                    window.location.href = `http://localhost:8080/#/vote/result/${this.$route.params.id}`
+                }
         })
         }
     }

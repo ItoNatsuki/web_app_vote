@@ -3,10 +3,10 @@
     <input id="title" type="text" placeholder="質問のタイトル" v-model="title" />
     <div id="choiceList">
       <div v-for="(choiceInput,index) in choiceList" :key="index">
-        <input name="content" type="text" :value="choiceInput.choice" @input="addInput($event,index)" />
-        <button @click="deleteChoice(index)">削除</button>
+        <input class="content" type="text" :value="choiceInput.choice" @input="addInput($event,index)" />
+        <button id="deleteButton" @click="deleteChoice(index)">削除</button>
       </div>
-      <button @click="addChoice">追加</button>
+      <button id="addButton" @click="addChoice">追加</button>
     </div>
     <br />
     <input type="button" value="送信" @click="submitQuestion"/>
@@ -49,5 +49,8 @@ export default {
 #createQuestion{
   text-align: center;
 
+}
+[class="content"]{
+  margin:2% 0 2% 0
 }
 </style>
