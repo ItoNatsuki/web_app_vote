@@ -1,7 +1,10 @@
 <template>
 <div>
-    <vote-body :questions="questions" @vote="vote" @refreshClick="refreshClick"/>
-    <button @click="questionDelete">質問の削除</button>
+    <vote-body :questions="questions" @vote="vote" @refreshClick="refreshClick" />
+    <div id="buttonsQ">
+        <button id="deleteQ" @click="questionDelete">質問の削除</button>
+        <button id="deadline" @click="deadline">質問を締め切る</button>
+    </div>
 </div>
 
 </template>
@@ -60,6 +63,7 @@ export default{
                 }
             }).catch(error=>{window.alert(error.response.data)});
         },
+        //更新
         refreshClick(){
             axios.get(`http://localhost:3000/apis/${this.$route.params.id}`)
             .then(response=>{
@@ -67,14 +71,31 @@ export default{
                 this.questions = questionsData.questions[0];
             }).catch(error=>{window.alert(error.response.data)});
         },
+        //質問の削除
         questionDelete(){
             axios.delete(`http://localhost:3000/apis/${this.$route.params.id}`)
             .then(response =>{
-                console.log("aaa")
                 window.location.href = `http://localhost:8080/#/`;
             }).catch(error=>{window.alert(error.response.data)});
+        },
+        deadline(){
+            axios.post(`http://localhost:3000/apis/deadline/${this.$route.params.id}`)
+            .then(response =>{
+                window.location.href = `http://localhost:8080/#/question/result/${this.$route.params.id}`;
+            }).catch(error=>{window.alert(error.response.data)})
         }
     },
 
     }
 </script>
+<style scoped>
+#buttonsQ{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: center;
+    margin-top: 2%;
+}
+#deleteQ,#deadline{
+    margin-left: 2%;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
 <div id="voteButton">
     <label id="voteLabel">
-        <input type="radio" :id="id" name="choice" @change="emitVote"><span name="subject"  >{{choice.content}}</span><br><span id ="count" name="count">{{choice.count}}</span>
+        <input type="radio" :id="id" name="choice" disabled><span name="subject"  >{{choice.content}}</span><br><span id ="count" name="count">{{choice.count}}</span>
     </label>
 </div>
 </template>
@@ -12,9 +12,6 @@ export default{
         'choice'
     ],
     methods:{
-        emitVote(e){
-            this.$emit("emitVote",e.target.id);
-        }
     }
 }
 </script>
@@ -32,6 +29,7 @@ export default{
 }
 #voteLabel input{
     display: none;
+
 }
 
 #voteLabel span{
@@ -41,11 +39,6 @@ export default{
     font-size: 20px; 
     border: 1px solid #333;
     padding: 1% 1%; 
-}
-#voteLabel input:checked + span{
-    color: #FFF; 
-    background: rgb(99, 99, 99); 
-    border: 1px solid rgb(99, 99, 99); 
 }
 #voteButton{
     display: block;

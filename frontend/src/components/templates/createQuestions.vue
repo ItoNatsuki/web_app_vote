@@ -1,6 +1,6 @@
 <template>
 <section>
-    <h3>作成したい質問内容を入力してください</h3>
+    <h3 id="title">作成したい質問内容を入力してください</h3>
     <inputQuestions @submitQuestion="submitQuestion"/>
 </section>
 </template>
@@ -18,3 +18,8 @@ export default{
     }
 }
 </script>
+<style scoped>
+#title{
+    text-align: center;
+}
+</style>

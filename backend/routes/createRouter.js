@@ -44,6 +44,7 @@ router.get('/:id', (req, res, next) => {
         res.status(404).send("質問データが存在しない。もしくは、既に削除されています");
     }
 });
+//DELETEメソッド(質問の削除)
 router.delete('/:id',(req,res,next) =>{
     try{
         fs.unlinkSync(`jsons\\${req.params.id}.json`);
@@ -52,5 +53,16 @@ router.delete('/:id',(req,res,next) =>{
     }catch(err){
         res.status(404).send("質問データが存在しない。もしくは、既に削除されています。");
     }
+})
+router.post('/deadline/:id',(req,res,next)=>{
+    try{
+        const questionJson = fileLeader(req.params.id);
+        questionJson.questions[0].deadlineFlag = true;
+        res.status(200).send();
+    }catch(err){
+        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
+    }
+
+
 })
 module.exports = router;

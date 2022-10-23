@@ -1,6 +1,6 @@
 <template>  
     <div id="voteButtons">
-        <div v-for="choice in choices" :key="choice.id">
+        <div name="choice" v-for="choice in choices" :key="choice.id">
             <vote-button :choice="choice" :id="choice.id" @emitVote="emitVote"/>
         </div>
     </div>
@@ -33,5 +33,8 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
+[name="choice"]{
+    margin:5% 3% 1% 1%
+}
 </style>

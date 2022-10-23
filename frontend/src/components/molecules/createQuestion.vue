@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div id="createQuestion">
     <input id="title" type="text" placeholder="質問のタイトル" v-model="title" />
     <div id="choiceList">
       <div v-for="(choiceInput,index) in choiceList" :key="index">
-        <input type="text" :value="choiceInput.choice" @input="addInput($event,index)" />
+        <input name="content" type="text" :value="choiceInput.choice" @input="addInput($event,index)" />
         <button @click="deleteChoice(index)">削除</button>
       </div>
       <button @click="addChoice">追加</button>
@@ -45,8 +45,9 @@ export default {
   }
 };
 </script>
-<style >
-input {
-  margin: 2%;
+<style scoped>
+#createQuestion{
+  text-align: center;
+
 }
 </style>

@@ -1,7 +1,8 @@
 <template>
 <div id="voteBody">
-    <h1 id="title">{{questions.title}}</h1>
-    <voteButtons id="voteButtons" :choices="questions.choices" @voteObj = "voteObj"/>
+    <h1 id="result">集計結果</h1>
+    <h2 id="title">質問：{{questions.title}}</h2>
+    <resultButtons id="voteButtons" :choices="questions.choices" @voteObj = "voteObj" />
     <br>
     <div id="buttons">
     <button id="refresh" @click="refreshClick">更新</button>
@@ -13,18 +14,15 @@
 </template>
 
 <script>
-import voteButtons from '@/components/molecules/voteButtons'
+import resultButtons from '@/components/molecules/resultButtons'
 
 export default {
     components:{
-        voteButtons,
+        resultButtons,
         
     },
     props:['questions'],
     methods:{
-        voteObj(payload){
-            this.$emit("vote",payload)
-        },
         refreshClick(){
             this.$emit("refreshClick");
         }
@@ -32,6 +30,9 @@ export default {
 }
 </script>
 <style scoped>
+#result{
+    text-align: center;
+}
 #title{
     text-align: center;
 }
