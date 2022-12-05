@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import resultBody from '@/components/molecules/resultBody'
     export default{
         data(){
@@ -18,7 +17,7 @@ import resultBody from '@/components/molecules/resultBody'
             resultBody
         },
         created(){
-            axios.get(`http://localhost:3000/apis/${this.$route.params.id}`)
+            this.$axios_inst.get(`/${this.$route.params.id}`)
             .then(response=>{
                 const questionsData = response.data;
                 this.questions = questionsData.questions[0];
@@ -37,7 +36,7 @@ import resultBody from '@/components/molecules/resultBody'
         methods:{
         //更新ボタンの処理
         refreshClick(){
-        axios.get(`http://localhost:3000/apis/${this.$route.params.id}`)
+        this.$axios_inst.get(`/${this.$route.params.id}`)
         .then(response=>{
             const questionsData = response.data;
             this.questions = questionsData.questions[0];

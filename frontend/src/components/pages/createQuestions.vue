@@ -4,7 +4,6 @@
 
 <script>
 import createQuestions from '@/components/templates/createQuestions'
-import axios from "axios";
 export default{
     components:{
         createQuestions
@@ -19,13 +18,13 @@ export default{
                 alert("タイトルを入力してください")
                 return;
             }
-            axios.post('http://localhost:3000/apis/create',{
+            this.$axios_inst.post('/create',{
                 title:payload.title,
                 choice:payload.choice
             })
             .then(response=>{
                 const questionsId = response.data.questionsId;
-                window.location.href = `http://localhost:8080/#/question/vote/${questionsId}`
+                window.location.href = `${this.$base_url}/question/vote/${questionsId}`
             })
             .catch(error=>console.log(error));
         }
