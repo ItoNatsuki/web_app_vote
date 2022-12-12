@@ -1,8 +1,10 @@
 const { v4: uuidv4 } = require('uuid');
 const express = require('express');
 const fs = require('fs');
-const fileLeader = require('../moduls/fileLeader');
-const createQuestionObj = require('../moduls/createQuestionObj')
+const fileLeader = require('../modules/fileLeader');
+const createQuestionObj = require('../modules/createQuestionObj');
+require('date-utils');
+const now = require('../modules/now');
 const router = express.Router();
 const DEFAULT_SETTINGS = {
     "timeLimit": false,
@@ -15,9 +17,13 @@ const jsonsLocation = `jsons/`
 router.post('/create', (req, res, next) => {
     //POSTで送信されたデータをjson形式(オブジェクト)に整形する(expressの内蔵ミドルウェア　express.json())
     //idを生成し、質問データにパラメータとして付与
+
     const newQuestionsObj = {}
     const questionId = uuidv4();
     newQuestionsObj.questionsId = questionId;
+
+    newQuestionsObj.createAt = now();
+    newQuestionsObj.updateAt = now();
 
     newQuestionsObj.settings = DEFAULT_SETTINGS;
     newQuestionsObj.questions = [];
@@ -58,6 +64,7 @@ router.delete('/:id',(req,res,next) =>{
 router.post('/deadline/:id',(req,res,next)=>{
     try{
         const questionJson = fileLeader(req.params.id);
+        questionJson.updateAt = now();
         questionJson.questions[0].deadlineFlag = true;
         fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.status(200).send();
