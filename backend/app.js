@@ -4,9 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+const cron = require('node-cron');
+const fs = require('fs');
+const AsyncLock = require('async-lock');
+const now = require('./modules/now');
 
 const voteRouter = require('./routes/voteRouter');
 const createRouter = require('./routes/createRouter');
+const fileLeader = require('./modules/fileLeader');
 
 var app = express();
 
@@ -40,4 +45,29 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+const lock = new AsyncLock({timeout:1000*3});
+
+cron.schedule('0 */1 * * * *',async ()=>{
+  fs.readdir('./jsons',(err,files) =>{
+    files.forEach(file => {
+      lock.acquire('dataCheck-lock',async()=>{
+        const questionJsonStr = fs.readFileSync(`./jsons/${file}`, 'utf8');
+        const questionJson = JSON.parse(questionJsonStr);
+        questionData = new Date(questionJson.updateAt);
+        nowData = new Date(now());
+        let diff =  nowData.getTime() - questionData.getTime();
+        console.log(diff);
+        const elapsedTime = (diff/(60*60*1000));
+        if(elapsedTime > 1){
+          fs.unlinkSync(`./jsons/${file}`);
+          console.log(`${file}を削除しました`)
+        }
+      },(error,result)=>{
+        if(error){
+          console.log(error);
+        }
+      })
+    });
+  })
+});
 module.exports = app;
