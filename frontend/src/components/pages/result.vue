@@ -1,10 +1,12 @@
 <template>
     <div>
+        <vote-header></vote-header>
         <resultBody :questions="questions" @refreshClick="refreshClick"/>
     </div>
 </template>
 
 <script>
+import voteHeader from '@/components/molecules/voteHeader'
 import resultBody from '@/components/molecules/resultBody'
     export default{
         data(){
@@ -14,7 +16,8 @@ import resultBody from '@/components/molecules/resultBody'
             }
         },
         components:{
-            resultBody
+            resultBody,
+            voteHeader
         },
         created(){
             this.$axios_inst.get(`/${this.$route.params.id}`)

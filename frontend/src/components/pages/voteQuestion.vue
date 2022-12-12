@@ -14,7 +14,8 @@ import voteBody from '@/components/molecules/votebody'
 export default{
     data(){
         return{
-            questions:{}
+            questions:{},
+            intervalId:undefined
         }
     },
     components:{
@@ -60,7 +61,10 @@ export default{
                     })
                     .catch(error=>{window.alert(error.response.data)});
                 }
-            }).catch(error=>{window.alert(error.response.data)});
+            }).catch(error=>{
+                window.alert(error.response.data)
+                clearInterval(this.intervalId);
+                });
         },
         //更新
         refreshClick(){
@@ -68,20 +72,29 @@ export default{
             .then(response=>{
                 const questionsData = response.data;
                 this.questions = questionsData.questions[0];
-            }).catch(error=>{window.alert(error.response.data)});
+            }).catch(error=>{
+                window.alert(error.response.data);
+                clearInterval(this.intervalId);
+                });
         },
         //質問の削除
         questionDelete(){
             this.$axios_inst.delete(`/${this.$route.params.id}`)
             .then(response =>{
                 window.location.href = `http://localhost:8080/#/`;
-            }).catch(error=>{window.alert(error.response.data)});
+            }).catch(error=>{
+                window.alert(error.response.data);
+                clearInterval(this.intervalId);
+                });
         },
         deadline(){
             this.$axios_inst.post(`/deadline/${this.$route.params.id}`)
             .then(response =>{
                 window.location.href = `http://localhost:8080/#/question/result/${this.$route.params.id}`;
-            }).catch(error=>{window.alert(error.response.data)})
+            }).catch(error=>{
+                window.alert(error.response.data)
+                clearInterval(this.intervalId);
+                })
         }
     },
 

@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 const cors = require('cors');
 const cron = require('node-cron');
 const fs = require('fs');
@@ -48,6 +49,7 @@ app.use(function(err, req, res, next) {
 const lock = new AsyncLock({timeout:1000*3});
 
 cron.schedule('0 0 */1 * * *',async ()=>{
+  console.log(`${now()}:jsonファイルチェック実行`)
   fs.readdir('./jsons',(err,files) =>{
     files.forEach(file => {
       lock.acquire('dataCheck-lock',async()=>{
@@ -56,7 +58,6 @@ cron.schedule('0 0 */1 * * *',async ()=>{
         questionData = new Date(questionJson.updateAt);
         nowData = new Date(now());
         let diff =  nowData.getTime() - questionData.getTime();
-        console.log(diff);
         const elapsedTime = (diff/(60*60*1000));
         if(elapsedTime > 1){
           fs.unlinkSync(`./jsons/${file}`);

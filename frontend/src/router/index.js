@@ -15,6 +15,7 @@ const createQuestion = () => import(/* webpackChunkName: createQuestion */ "@/co
 const questionResult = () => import(/* webpackChunkName: questionResult */ "@/components/pages/questionResult");
 const vote = () => import(/* webpackChunkName: vote */ "@/components/pages/vote");
 const result = () => import(/* webpackChunkName: result */ "@/components/pages/result");
+const NotFoundError = () => import(/* webpackChunkName: NotFoundError */ "@/components/pages/404");
 Vue.use(Router)
 
 export default new Router({
@@ -23,6 +24,11 @@ export default new Router({
       path: '/',
       name: 'createQuestions',
       component: createQuestions
+    },
+    {
+      path: '*',
+      name: 'NotFoundError',
+      component:NotFoundError
     },
     {
       path:'/question/vote/:id', 

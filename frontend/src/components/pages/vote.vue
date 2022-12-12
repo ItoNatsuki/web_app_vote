@@ -1,8 +1,13 @@
 <template>
-<vote-body :questions="questions" @vote="vote" @refreshClick="refreshClick"/>
+<div>
+<vote-header></vote-header>
+    <vote-body :questions="questions" @vote="vote" @refreshClick="refreshClick"/>
+</div>
+
 </template>
 
 <script>
+import voteHeader from '@/components/molecules/voteHeader'
 import voteBody from '@/components/molecules/votebody'
 export default{
     data(){
@@ -12,7 +17,8 @@ export default{
         }
     },
     components:{
-        voteBody
+        voteBody,
+        voteHeader
     },
     created(){
         //画面構築用質問データ問い合わせ
@@ -29,6 +35,7 @@ export default{
     //投票状況確認用ポーリング処理
     mounted(){
         this.intervalId = setInterval(()=>{
+        
         this.$axios_inst.get(`/${this.$route.params.id}`)
         .then(response=>{
             const questionsData = response.data;
@@ -36,7 +43,11 @@ export default{
             if(this.questions.deadlineFlag){
                 window.location.href = `http://localhost:8080/#/vote/result/${this.$route.params.id}`
             }
-        })},3000)
+        }).catch(err=>{
+            window.alert(err.response.data);
+            clearInterval(this.intervalId);
+        })
+        },3000)
     },
     //ページ遷移時、setInterval削除
     beforeDestroy(){
