@@ -5,9 +5,9 @@ const fileLeader = require('../moduls/fileLeader');
 const createQuestionObj = require('../moduls/createQuestionObj')
 const router = express.Router();
 const DEFAULT_SETTINGS = {
-    "test1": true,
-    "test2": true,
-    "test3": true
+    "timeLimit": false,
+    "addChoice": false,
+    "multipleChoice": false
 }
 const jsonsLocation = `jsons/`
 //http://localhost:3000/のミドルウェア群
@@ -42,7 +42,7 @@ router.get('/:id', (req, res, next) => {
         //httpヘッダーのcontent-typeがjsonで送信される
         res.json(questionJson);
     } catch (err) {
-        res.status(404).send("質問データが存在しない。もしくは、既に削除されています");
+        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。");
     }
 });
 //DELETEメソッド(質問の削除)

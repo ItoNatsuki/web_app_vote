@@ -13,7 +13,7 @@ router.put('/add/:id', (req, res, next) => {
         fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.send(questionJson);
     } catch (err) {
-        res.status(400).send(err);
+        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。");
     }
 });
 router.put('/sub/:id', (req, res, next) => {
@@ -28,7 +28,7 @@ router.put('/sub/:id', (req, res, next) => {
         fs.writeFileSync(`${jsonsLocation}${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.send(questionJson);
     } catch (err) {
-        res.status(400).send(err);
+        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。");
     }
 })
 
