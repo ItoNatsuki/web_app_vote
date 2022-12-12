@@ -47,7 +47,7 @@ app.use(function(err, req, res, next) {
 
 const lock = new AsyncLock({timeout:1000*3});
 
-cron.schedule('0 */1 * * * *',async ()=>{
+cron.schedule('0 0 */1 * * *',async ()=>{
   fs.readdir('./jsons',(err,files) =>{
     files.forEach(file => {
       lock.acquire('dataCheck-lock',async()=>{
