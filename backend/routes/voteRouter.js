@@ -11,7 +11,7 @@ const lock = new AsyncLock({timeout:1000*3});
 
 //http://localhost:3000/vote/:idのミドルウェア群
 
-router.put('/add/:id', async(req, res, next) => {
+router.put('/add/:id', async (req, res, next) => {
     lock.acquire('add-lock',async ()=>{
         const questionJson = fileLeader(req.params.id);
         questionJson.questions[0].choices[req.body.id].count++;
