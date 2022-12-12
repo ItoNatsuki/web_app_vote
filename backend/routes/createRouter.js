@@ -3,8 +3,8 @@ const express = require('express');
 const fs = require('fs');
 const fileLeader = require('../modules/fileLeader');
 const createQuestionObj = require('../modules/createQuestionObj');
-require('date-utils');
 const now = require('../modules/now');
+const AsyncLock = require('async-lock');
 const router = express.Router();
 const DEFAULT_SETTINGS = {
     "timeLimit": false,
@@ -12,9 +12,12 @@ const DEFAULT_SETTINGS = {
     "multipleChoice": false
 }
 const jsonsLocation = `jsons/`
+
+const lock = new AsyncLock({timeout:1000*3});
+
 //http://localhost:3000/のミドルウェア群
 //質問作成
-router.post('/create', (req, res, next) => {
+router.post('/create', async (req, res, next) => {
     //POSTで送信されたデータをjson形式(オブジェクト)に整形する(expressの内蔵ミドルウェア　express.json())
     //idを生成し、質問データにパラメータとして付与
 
@@ -34,15 +37,21 @@ router.post('/create', (req, res, next) => {
     //オブジェクトからJSON文字列に変換
     const questionJson = JSON.stringify(newQuestionsObj);
     //ファイル書き込み
-    try {
+
+    lock.acquire('create-lock',async()=>{
         fs.writeFileSync(`jsons\\${questionId}.json`, questionJson, 'utf8');
         res.send({ questionsId: questionId });
-    } catch (err) {
-        console.log(err);
-    }
+    },(error,result) => {
+        if(error){
+            console.log(error);
+            res.status(400).send("エラー");
+        }
+    })
 });
 //GETメソッド(集計状況の確認)
 router.get('/:id', (req, res, next) => {
+
+
     try {
         const questionJson = fileLeader(req.params.id);
         //httpヘッダーのcontent-typeがjsonで送信される
@@ -52,26 +61,32 @@ router.get('/:id', (req, res, next) => {
     }
 });
 //DELETEメソッド(質問の削除)
-router.delete('/:id',(req,res,next) =>{
-    try{
+router.delete('/:id',async (req,res,next) =>{
+
+    lock.acquire('delete-lock',async()=>{
         fs.unlinkSync(`jsons\\${req.params.id}.json`);
         console.log(`${req.params.id}.jsonを削除しました`)
         res.status(200).send();
-    }catch(err){
-        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。");
-    }
+    },(error,result)=>{
+        if(error){
+            console.log(error);
+            res.status(404).send("質問データが存在しない。もしくは、既に削除されています。");
+        }
+    })
+
 })
 router.post('/deadline/:id',(req,res,next)=>{
-    try{
+    lock.acquire('deadline-lock',async()=>{
         const questionJson = fileLeader(req.params.id);
         questionJson.updateAt = now();
         questionJson.questions[0].deadlineFlag = true;
         fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.status(200).send();
-    }catch(err){
-        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
-    }
-
-
+    },(error,result)=>{
+        if(error){
+            console.log(error);
+            res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
+        }
+    })
 })
 module.exports = router;
