@@ -1,13 +1,15 @@
 <template>
     <div>
+        <question-header></question-header>
         <resultBody :questions="questions" @refreshClick="refreshClick"/>
         <div id="buttonsQ">
-            <button id="newQ" @click="newQ">新しい質問を作成する</button>
+            <button type="button" id="newQ" @click="newQ">新しい質問を作成する</button>
         </div>
     </div>
 </template>
 
 <script>
+import questionHeader from '@/components/molecules/questionHeader'
 import resultBody from '@/components/molecules/resultBody'
     export default{
         data(){
@@ -17,7 +19,8 @@ import resultBody from '@/components/molecules/resultBody'
             }
         },
         components:{
-            resultBody
+            resultBody,
+            questionHeader
         },
         created(){
             this.$axios_inst.get(`/${this.$route.params.id}`)
@@ -46,7 +49,8 @@ import resultBody from '@/components/molecules/resultBody'
         })
         },
         newQ(){
-            window.location.href = `http://localhost:8080/#/`;
+            window.location.href = `http://localhost:8080/#`;
+            location.reload();
         }
     }
 }

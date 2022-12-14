@@ -6,11 +6,11 @@ const createQuestionObj = require('../modules/createQuestionObj');
 const now = require('../modules/now');
 const AsyncLock = require('async-lock');
 const router = express.Router();
-const DEFAULT_SETTINGS = {
-    "timeLimit": false,
-    "addChoice": false,
-    "multipleChoice": false
-}
+const DEFAULT_SETTINGS = [
+    {id:1,"timeLimit": false},
+    {id:2,"addChoice": false},
+    {id:3,"multipleChoice": false}
+]
 const jsonsLocation = `jsons/`
 
 const lock = new AsyncLock({timeout:1000*3});
@@ -89,4 +89,19 @@ router.post('/deadline/:id',(req,res,next)=>{
         }
     })
 })
+
+router.put('/setting/addChoice/:id',(req,res,next)=>{
+    lock.acquire('setting-addChoice-lock',async()=>{
+        const questionJson = fileLeader(req.params.id);
+        questionJson.updateAt = now();
+        questionJson.settings[1] = req.body
+        fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
+        res.status(200).send();
+    })
+},(error,result)=>{
+    if(error){
+        console.log(error);
+        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
+        }
+    })
 module.exports = router;

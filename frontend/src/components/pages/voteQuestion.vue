@@ -1,6 +1,7 @@
 <template>
 <div>
-    <vote-body :questions="questions" @vote="vote" @refreshClick="refreshClick" />
+    <question-header></question-header>
+    <vote-body id="voteBody" :questions="questions" @vote="vote" @refreshClick="refreshClick" />
     <div id="buttonsQ">
         <button id="deleteQ" @click="questionDelete">質問の削除</button>
         <button id="deadline" @click="deadline">質問を締め切る</button>
@@ -10,6 +11,7 @@
 </template>
 
 <script>
+import questionHeader from '@/components/molecules/questionHeader'
 import voteBody from '@/components/molecules/votebody'
 export default{
     data(){
@@ -19,7 +21,8 @@ export default{
         }
     },
     components:{
-        voteBody
+        voteBody,
+        questionHeader
     },
     created(){
         this.$axios_inst.get(`/${this.$route.params.id}`)
@@ -38,6 +41,7 @@ export default{
             this.questions = questionsData.questions[0];
         }).catch(error=>{
             window.alert(error.response.data)
+            clearInterval(this.intervalId);
             });    
         },3000)
     },
@@ -90,7 +94,7 @@ export default{
         deadline(){
             this.$axios_inst.post(`/deadline/${this.$route.params.id}`)
             .then(response =>{
-                window.location.href = `http://localhost:8080/#/question/result/${this.$route.params.id}`;
+                window.location.href = `${this.$base_url}/question/result/${this.$route.params.id}`;
             }).catch(error=>{
                 window.alert(error.response.data)
                 clearInterval(this.intervalId);
@@ -110,4 +114,5 @@ export default{
 #deleteQ,#deadline{
     margin-left: 2%;
 }
+
 </style>

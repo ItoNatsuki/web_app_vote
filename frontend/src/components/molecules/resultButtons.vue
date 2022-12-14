@@ -25,6 +25,6 @@ export default {
 </script>
 <style scoped>
 [name="choice"]{
-    margin:5% 3% 1% 1%
+    margin:5% 3% 1% 1%;
 }
 </style>

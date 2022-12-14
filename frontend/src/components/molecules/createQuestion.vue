@@ -17,7 +17,8 @@ export default {
   data() {
     return {
       title: "",
-      choiceList: [{ choice: "選択肢1" }, { choice: "選択肢2" }]
+      choiceList: [{ choice: "選択肢1" }, { choice: "選択肢2" }],
+      
     };
   },
   methods: {

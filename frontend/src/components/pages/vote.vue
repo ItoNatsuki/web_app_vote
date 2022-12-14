@@ -27,7 +27,7 @@ export default{
                 const questionsData = response.data;
                 this.questions = questionsData.questions[0];
                 if(this.questions.deadlineFlag){
-                    window.location.href = `http://localhost:8080/#/vote/result/${this.$route.params.id}`
+                    window.location.href = `${this.$base_url}/vote/result/${this.$route.params.id}`
                 }
             })
             .catch(error=>console.log(error));
@@ -41,7 +41,7 @@ export default{
             const questionsData = response.data;
             this.questions = questionsData.questions[0];
             if(this.questions.deadlineFlag){
-                window.location.href = `http://localhost:8080/#/vote/result/${this.$route.params.id}`
+                window.location.href = `${this.$base_url}/vote/result/${this.$route.params.id}`
             }
         }).catch(err=>{
             window.alert(err.response.data);
@@ -78,7 +78,7 @@ export default{
             const questionsData = response.data;
             this.questions = questionsData.questions[0];
                 if(this.questions.deadline){
-                    window.location.href = `http://localhost:8080/#/vote/result/${this.$route.params.id}`
+                    window.location.href = `${this.$base_url}/vote/result/${this.$route.params.id}`
                 }
         })
         }

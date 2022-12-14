@@ -1,12 +1,22 @@
 <template>
-<createQuestions  @submitQuestion="submitQuestion" />
+<div>
+    <question-header  @sendAddChoice="sendAddChoice"></question-header>
+    <createQuestions  @submitQuestion="submitQuestion" />
+</div>
 </template>
 
 <script>
 import createQuestions from '@/components/templates/createQuestions'
+import questionHeader from '@/components/molecules/questionHeader'
 export default{
+    data(){
+        return{
+            addChoiceFlg:false
+        }
+    },
     components:{
-        createQuestions
+        createQuestions,
+        questionHeader
     },
     methods:{
         submitQuestion(payload){
@@ -24,9 +34,17 @@ export default{
             })
             .then(response=>{
                 const questionsId = response.data.questionsId;
-                window.location.href = `${this.$base_url}/question/vote/${questionsId}`
-            })
-            .catch(error=>console.log(error));
+                this.$axios_inst.put(`/setting/addChoice/${questionsId}`,{
+                    addChoice:this.addChoiceFlg
+                })
+                    .then(response=>{
+                        window.location.href = `${this.$base_url}/question/vote/${questionsId}`
+                    }).catch(error=>console.log(error));
+            }).catch(error=>console.log(error));
+        },
+        sendAddChoice(){
+            this.addChoiceFlg = !(this.addChoiceFlg)
+            console.log(this.addChoiceFlg);
         }
     }
 }

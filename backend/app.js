@@ -61,7 +61,7 @@ cron.schedule('0 0 */1 * * *',async ()=>{
         const elapsedTime = (diff/(60*60*1000));
         if(elapsedTime > 1){
           fs.unlinkSync(`./jsons/${file}`);
-          console.log(`${file}を削除しました`)
+          console.log(`${now()}:${file}を削除しました`)
         }
       },(error,result)=>{
         if(error){

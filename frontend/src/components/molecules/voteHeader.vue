@@ -1,5 +1,5 @@
 <template>
-<div id="voteHeader">
+<div id="header">
     <span id="title">RandomWebPoll</span>
 </div>
 </template>
@@ -13,7 +13,7 @@
     font-size: 225%;
     color: #b2ce55;
 }
-#voteHeader{
+#header{
     width:100%;
     height: 70px;
     background-color: #3f706e;

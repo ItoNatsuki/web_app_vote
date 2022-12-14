@@ -2,7 +2,7 @@
 <div>
     <h1>404NotFound</h1>
     <h2>申し訳ございませんが、該当ページが見つからなかったため５秒後トップページに遷移します。</h2><br>
-    <a href="http://localhost:8080/#/">自動的に遷移しない場合はこちらをクリックしてください。</a>
+    <a href="`${this.$base_url}`">自動的に遷移しない場合はこちらをクリックしてください。</a>
 </div>
 </template>
 
@@ -10,7 +10,8 @@
 export default{
     created(){
         setTimeout(()=>{
-            window.location.href = `http://localhost:8080/#/`;
+            window.location.href = `${this.$base_url}`;
+            location.reload();
         },5000);
     }
 }
