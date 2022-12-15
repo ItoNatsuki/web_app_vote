@@ -2,7 +2,7 @@
 <div id="header">
     <span id="title">FreedomWebPoll</span>
 
-    <modal-settings  @sendAddChoice="sendAddChoice"></modal-settings>
+    <modal-settings  @input="sendAddChoice" :checked="checked"></modal-settings>
 </div>
 </template>
 
@@ -12,9 +12,12 @@ export default{
     components:{
         modalSettings
     },
+    props:[
+        'checked'
+    ],
     methods:{
         sendAddChoice(){
-            this.$emit("sendAddChoice")
+            this.$emit("input")
         }
     }
 }

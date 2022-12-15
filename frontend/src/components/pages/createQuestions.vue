@@ -1,6 +1,6 @@
 <template>
 <div>
-    <question-header  @sendAddChoice="sendAddChoice"></question-header>
+    <question-header  :checked="checked" @input="sendAddChoice"></question-header>
     <createQuestions  @submitQuestion="submitQuestion" />
 </div>
 </template>
@@ -11,7 +11,7 @@ import questionHeader from '@/components/molecules/questionHeader'
 export default{
     data(){
         return{
-            addChoiceFlg:false
+            checked:false
         }
     },
     components:{
@@ -35,7 +35,7 @@ export default{
             .then(response=>{
                 const questionsId = response.data.questionsId;
                 this.$axios_inst.put(`/setting/addChoice/${questionsId}`,{
-                    addChoice:this.addChoiceFlg
+                    addChoice:this.checked
                 })
                     .then(response=>{
                         window.location.href = `${this.$base_url}/question/vote/${questionsId}`
@@ -43,8 +43,7 @@ export default{
             }).catch(error=>console.log(error));
         },
         sendAddChoice(){
-            this.addChoiceFlg = !(this.addChoiceFlg)
-            console.log(this.addChoiceFlg);
+            this.checked = !(this.checked)
         }
     }
 }

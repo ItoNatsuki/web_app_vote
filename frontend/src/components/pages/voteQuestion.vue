@@ -1,6 +1,6 @@
 <template>
 <div>
-    <question-header></question-header>
+    <question-header :checked="checked" @input="sendAddChoice"></question-header>
     <vote-body id="voteBody" :questions="questions" @vote="vote" @refreshClick="refreshClick" />
     <div id="buttonsQ">
         <button id="deleteQ" @click="questionDelete">質問の削除</button>
@@ -17,7 +17,8 @@ export default{
     data(){
         return{
             questions:{},
-            intervalId:undefined
+            intervalId:undefined,
+            checked:false
         }
     },
     components:{
@@ -29,6 +30,9 @@ export default{
             .then(response=>{
                 const questionsData = response.data;
                 this.questions = questionsData.questions[0];
+                const tmp = questionsData.settings[1]; 
+                const settingFlgs = Object.values(tmp);
+                this.checked = settingFlgs[0];
             })
             .catch(error=>console.log(error.response.data));
     },
@@ -39,8 +43,11 @@ export default{
         .then(response=>{
             const questionsData = response.data;
             this.questions = questionsData.questions[0];
+            const tmp = questionsData.settings[1]; 
+            const settingFlgs = Object.values(tmp);
+            this.checked = settingFlgs[0];
         }).catch(error=>{
-            window.alert(error.response.data)
+            window.alert(error)
             clearInterval(this.intervalId);
             });    
         },3000)
@@ -99,6 +106,12 @@ export default{
                 window.alert(error.response.data)
                 clearInterval(this.intervalId);
                 })
+        },
+        sendAddChoice(){
+            this.checked = !(this.checked);
+            this.$axios_inst.put(`/setting/addChoice/${this.$route.params.id}`,{
+                addChoice:this.checked
+            }).catch(error=>console.log(error));
         }
     },
 

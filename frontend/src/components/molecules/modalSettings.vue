@@ -6,7 +6,7 @@
         <div id="overlay" v-show="showContent">
             <div id="content">
                 <div id="settingChoice">
-                    <input type="checkbox" id="addChoice" name="addChoice"  @click="sendAddChoice">
+                    <input type="checkbox" id="addChoice" name="addChoice"  :checked="checked" @input="sendAddChoice">
                     <label for="addChoice">投票者にも選択肢を追加させる</label>
                     <button id="close" @click="closeModal">閉じる</button>
                 </div>
@@ -22,6 +22,9 @@
                 showContent:false
             };
         },
+        props:[
+            'checked'
+        ],
         methods:{
             openModal(){
                 this.showContent = true;
@@ -30,7 +33,7 @@
                 this.showContent = false;
             },
             sendAddChoice(){
-                this.$emit("sendAddChoice")
+                this.$emit("input")
             }
         }
     }

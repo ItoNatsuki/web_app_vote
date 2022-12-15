@@ -7,9 +7,9 @@ const now = require('../modules/now');
 const AsyncLock = require('async-lock');
 const router = express.Router();
 const DEFAULT_SETTINGS = [
-    {id:1,"timeLimit": false},
-    {id:2,"addChoice": false},
-    {id:3,"multipleChoice": false}
+    {"timeLimit": false},
+    {"addChoice": false},
+    {"multipleChoice": false}
 ]
 const jsonsLocation = `jsons/`
 
@@ -75,6 +75,24 @@ router.delete('/:id',async (req,res,next) =>{
     })
 
 })
+router.put('/addChoice/:id',(req,res,next)=>{
+    lock.acquire('addChoice-lock',async()=>{
+        const body = req.body;
+        const questionJson = fileLeader(req.params.id);
+        questionJson.updateAt = now();
+        const choices = questionJson.questions[0].choices;
+        choices.push({id:choices.length,content:body.content,count:0});
+        questionJson.questions[0].choices = choices;
+        fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
+        res.status(200).send();
+    },(error,result)=>{
+        if(error){
+            console.log(error);
+            res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
+        }
+    })
+})
+
 router.post('/deadline/:id',(req,res,next)=>{
     lock.acquire('deadline-lock',async()=>{
         const questionJson = fileLeader(req.params.id);
@@ -94,7 +112,7 @@ router.put('/setting/addChoice/:id',(req,res,next)=>{
     lock.acquire('setting-addChoice-lock',async()=>{
         const questionJson = fileLeader(req.params.id);
         questionJson.updateAt = now();
-        questionJson.settings[1] = req.body
+        questionJson.settings[1]=req.body;
         fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.status(200).send();
     })

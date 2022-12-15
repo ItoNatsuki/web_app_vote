@@ -1,6 +1,6 @@
 <template>
     <div>
-        <question-header></question-header>
+        <question-header  @sendAddChoice="sendAddChoice"></question-header>
         <resultBody :questions="questions" @refreshClick="refreshClick"/>
         <div id="buttonsQ">
             <button type="button" id="newQ" @click="newQ">新しい質問を作成する</button>
@@ -16,6 +16,7 @@ import resultBody from '@/components/molecules/resultBody'
             return{
                 questions:{},
                 topChoiceID:undefined,
+                addChoiceFlg:false
             }
         },
         components:{
@@ -51,6 +52,9 @@ import resultBody from '@/components/molecules/resultBody'
         newQ(){
             window.location.href = `http://localhost:8080/#`;
             location.reload();
+        },
+        sendAddChoice(){
+            this.addChoiceFlg = !(this.addChoiceFlg);
         }
     }
 }
