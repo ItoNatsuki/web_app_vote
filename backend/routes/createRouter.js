@@ -84,7 +84,8 @@ router.put('/addChoice/:id',(req,res,next)=>{
         choices.push({id:choices.length,content:body.content,count:0});
         questionJson.questions[0].choices = choices;
         fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
-        res.status(200).send();
+        const NewQuestionJson = fileLeader(req.params.id);
+        res.status(200).json(NewQuestionJson);
     },(error,result)=>{
         if(error){
             console.log(error);

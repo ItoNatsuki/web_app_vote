@@ -1,7 +1,8 @@
 <template>
 <div>
-    <question-header :checked="checked" @input="sendAddChoice"></question-header>
-    <vote-body id="voteBody" :questions="questions" @vote="vote" @refreshClick="refreshClick" />
+    <question-header  :checked="checked" @input="sendAddChoice"></question-header>
+    <vote-body id="voteBody" :questions="questions" :addChoiceFlg ="addChoiceFlg" :addChoiceValue="addChoiceValue" 
+    @choiceAddInput="choiceAddInput" @submitAddChoice="submitAddChoice" @vote="vote" @refreshClick="refreshClick" />
     <div id="buttonsQ">
         <button id="deleteQ" @click="questionDelete">質問の削除</button>
         <button id="deadline" @click="deadline">質問を締め切る</button>
@@ -18,7 +19,9 @@ export default{
         return{
             questions:{},
             intervalId:undefined,
-            checked:false
+            checked:false,
+            addChoiceFlg:true,
+            addChoiceValue:"",
         }
     },
     components:{
@@ -33,6 +36,7 @@ export default{
                 const tmp = questionsData.settings[1]; 
                 const settingFlgs = Object.values(tmp);
                 this.checked = settingFlgs[0];
+
             })
             .catch(error=>console.log(error.response.data));
     },
@@ -77,6 +81,20 @@ export default{
                 clearInterval(this.intervalId);
                 });
         },
+        submitAddChoice(){
+            this.$axios_inst.put(`/addChoice/${this.$route.params.id}`,{content:this.addChoiceValue})
+            .then(response=>{
+                const questionsData = response.data;
+                this.questions = questionsData.questions[0];
+                this.addChoiceValue = ""
+            }).catch(error=>{
+                if(error.response.status === 404){
+                    window.alert(error.response.data);
+                    clearInterval(this.intervalId);
+                    return;
+                }
+            })
+        },
         //更新
         refreshClick(){
             this.$axios_inst.get(`/${this.$route.params.id}`)
@@ -112,6 +130,9 @@ export default{
             this.$axios_inst.put(`/setting/addChoice/${this.$route.params.id}`,{
                 addChoice:this.checked
             }).catch(error=>console.log(error));
+        },
+        choiceAddInput(value){
+            this.addChoiceValue = value;
         }
     },
 

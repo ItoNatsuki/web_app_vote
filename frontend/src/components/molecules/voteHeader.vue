@@ -1,6 +1,6 @@
 <template>
 <div id="header">
-    <span id="title">RandomWebPoll</span>
+    <span id="title">FreedomWebPoll</span>
 </div>
 </template>
 

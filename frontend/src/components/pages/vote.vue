@@ -1,7 +1,8 @@
 <template>
 <div>
 <vote-header></vote-header>
-    <vote-body :questions="questions" @vote="vote" @refreshClick="refreshClick"/>
+    <vote-body :questions="questions" :addChoiceFlg ="addChoiceFlg" :addChoiceValue="addChoiceValue" 
+    @choiceAddInput="choiceAddInput" @submitAddChoice="submitAddChoice" @vote="vote" @refreshClick="refreshClick"/>
 </div>
 
 </template>
@@ -13,7 +14,9 @@ export default{
     data(){
         return{
             questions:{},
-            intervalId:undefined
+            intervalId:undefined,
+            addChoiceFlg:false,
+            addChoiceValue:""
         }
     },
     components:{
@@ -40,6 +43,9 @@ export default{
         .then(response=>{
             const questionsData = response.data;
             this.questions = questionsData.questions[0];
+            const tmp = questionsData.settings[1]; 
+            const settingFlgs = Object.values(tmp);
+            this.addChoiceFlg = settingFlgs[0];
             if(this.questions.deadlineFlag){
                 window.location.href = `${this.$base_url}/vote/result/${this.$route.params.id}`
             }
@@ -81,6 +87,23 @@ export default{
                     window.location.href = `${this.$base_url}/vote/result/${this.$route.params.id}`
                 }
         })
+        },
+        submitAddChoice(){
+            this.$axios_inst.put(`/addChoice/${this.$route.params.id}`,{content:this.addChoiceValue})
+            .then(response=>{
+                const questionsData = response.data;
+                this.questions = questionsData.questions[0];
+                this.addChoiceValue = ""
+            }).catch(error=>{
+                if(error.response.status === 404){
+                    window.alert(error.response.data);
+                    clearInterval(this.intervalId);
+                    return;
+                }
+            })
+        },
+        choiceAddInput(value){
+            this.addChoiceValue = value;
         }
     }
 }

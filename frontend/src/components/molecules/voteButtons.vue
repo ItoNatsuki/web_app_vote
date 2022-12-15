@@ -3,10 +3,12 @@
         <div name="choice" v-for="choice in choices" :key="choice.id">
             <vote-button :choice="choice" :id="choice.id" @emitVote="emitVote"/>
         </div>
+            <modal-add-choice v-if="addChoiceFlg" :addChoiceValue="addChoiceValue" @submitAddChoice="submitAddChoice" @choiceAddInput="choiceAddInput"></modal-add-choice>
     </div>
 </template>
 <script>
 import voteButton from '@/components/atoms/voteButton'
+import modalAddChoice from '@/components/molecules/modalAddChoice'
 export default {
     data(){
         return{
@@ -14,10 +16,13 @@ export default {
         }
     },
     components:{
-        voteButton
+        voteButton,
+        modalAddChoice
     },
     props:[
-        'choices'
+        'addChoiceFlg',
+        'choices',
+        'addChoiceValue'
     ],
     methods:{
         emitVote(id){
@@ -29,6 +34,12 @@ export default {
             }
             this.$emit("voteObj",payload);
             this.beforeChoice = id;
+        },
+        submitAddChoice(){
+            this.$emit('submitAddChoice');
+        },
+        choiceAddInput(value){
+            this.$emit('choiceAddInput',value);
         }
     }
 }

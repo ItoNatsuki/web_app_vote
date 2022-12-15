@@ -1,7 +1,7 @@
 <template>
 <div id="voteBody">
     <h1 id="title">{{questions.title}}</h1>
-    <voteButtons id="voteButtons" :choices="questions.choices" @voteObj = "voteObj"/>
+    <voteButtons id="voteButtons" :addChoiceFlg="addChoiceFlg" :choices="questions.choices" :addChoiceValue="addChoiceValue" @choiceAddInput="choiceAddInput" @submitAddChoice ="submitAddChoice" @voteObj = "voteObj"/>
     <br>
     <div id="buttons">
     <button id="refresh" @click="refreshClick">更新</button>
@@ -20,13 +20,19 @@ export default {
         voteButtons,
         modalQR
     },
-    props:['questions'],
+    props:['questions','addChoiceValue','addChoiceFlg'],
     methods:{
         voteObj(payload){
             this.$emit("vote",payload)
         },
         refreshClick(){
             this.$emit("refreshClick");
+        },
+        submitAddChoice(){
+            this.$emit("submitAddChoice");
+        },
+        choiceAddInput(value){
+            this.$emit("choiceAddInput",value)
         }
     }
 }
