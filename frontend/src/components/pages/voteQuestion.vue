@@ -110,9 +110,8 @@ export default{
         questionDelete(){
             this.$axios_inst.delete(`/${this.$route.params.id}`)
             .then(response =>{
-            window.location.href = `${this.$base_url}`;
+            window.location.href = `${this.$base_url}/`;
             location.reload();
-
             }).catch(error=>{
                 window.alert(error.response.data);
                 clearInterval(this.intervalId);
