@@ -11,7 +11,7 @@ import result from '@/components/pages/result'
 
 const createQuestions = () => import(/* webpackChunkName: createQuestions */ "@/components/pages/createQuestions");
 const voteQuestion = () => import(/* webpackChunkName: voteQuestion */ "@/components/pages/voteQuestion");
-const createQuestion = () => import(/* webpackChunkName: createQuestion */ "@/components/pages/createQuestion");
+//const createQuestion = () => import(/* webpackChunkName: createQuestion */ "@/components/pages/createQuestion");
 const questionResult = () => import(/* webpackChunkName: questionResult */ "@/components/pages/questionResult");
 const vote = () => import(/* webpackChunkName: vote */ "@/components/pages/vote");
 const result = () => import(/* webpackChunkName: result */ "@/components/pages/result");
@@ -34,11 +34,13 @@ export default new Router({
       path:'/question/vote/:id', 
       component: voteQuestion,
     },
+/*
     {
       path:'/question/:id',
       name:'createQuestion',
       component: createQuestion
     },
+*/
     {
       path:'/question/result/:id',
       name:'questionResult',

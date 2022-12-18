@@ -50,7 +50,7 @@ import resultBody from '@/components/molecules/resultBody'
         })
         },
         newQ(){
-            window.location.href = `http://localhost:8080/#`;
+            window.location.href = `${this.$base_url}`;
             location.reload();
         },
         sendAddChoice(){

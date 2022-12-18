@@ -9,11 +9,11 @@ Vue.config.productionTip = false
 
 const axios_inst = axios.create(
   {
-    baseURL: 'http://localhost:3000/apis'
+    baseURL: process.env.API_ENDPOINT
   }
 )
 Vue.prototype.$axios_inst = axios_inst;
-Vue.prototype.$base_url = 'http://localhost:8080/#';
+Vue.prototype.$base_url = process.env.LOCAL_BASEURL;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
