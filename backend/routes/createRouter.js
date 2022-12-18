@@ -47,11 +47,10 @@ router.post('/create', async (req, res, next) => {
             res.status(400).send("エラー");
         }
     })
+    return;
 });
 //GETメソッド(集計状況の確認)
 router.get('/:id', (req, res, next) => {
-
-
     try {
         const questionJson = fileLeader(req.params.id);
         //httpヘッダーのcontent-typeがjsonで送信される
@@ -73,7 +72,7 @@ router.delete('/:id',async (req,res,next) =>{
             res.status(404).send("質問データが存在しない。もしくは、既に削除されています。");
         }
     })
-
+    return;
 })
 router.put('/addChoice/:id',(req,res,next)=>{
     lock.acquire('addChoice-lock',async()=>{
@@ -92,6 +91,7 @@ router.put('/addChoice/:id',(req,res,next)=>{
             res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
         }
     })
+    return;
 })
 
 router.post('/deadline/:id',(req,res,next)=>{
@@ -107,6 +107,7 @@ router.post('/deadline/:id',(req,res,next)=>{
             res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
         }
     })
+    return;
 })
 
 router.put('/setting/addChoice/:id',(req,res,next)=>{
@@ -116,11 +117,12 @@ router.put('/setting/addChoice/:id',(req,res,next)=>{
         questionJson.settings[1]=req.body;
         fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.status(200).send();
-    })
-},(error,result)=>{
-    if(error){
-        console.log(error);
-        res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
-        }
-    })
+    }),(error,result)=>{
+        if(error){
+            console.log(error);
+            res.status(404).send("質問データが存在しない。もしくは、既に削除されています。")
+            }
+    }
+    return;
+})
 module.exports = router;
