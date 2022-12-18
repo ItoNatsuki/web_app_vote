@@ -8,7 +8,7 @@
 export default{
     mounted(){
         new window.QRCode(document.getElementById("qrcode"),{
-            text:`http://localhost:8080/#/vote/${this.$route.params.id}`,
+            text:`${this.$base_url}/vote/${this.$route.params.id}`,
             width: 128,
             height: 128,
             colorDark : "#000000",
