@@ -10,7 +10,7 @@
 export default{
     created(){
         setTimeout(()=>{
-            window.location.href = `${this.$base_url}`;
+            window.location.href = `${this.$base_url}/`;
             location.reload();
         },5000);
     }
