@@ -11,7 +11,7 @@ const DEFAULT_SETTINGS = [
     {"addChoice": false},
     {"multipleChoice": false}
 ]
-const jsonsLocation = `jsons/`
+const jsonsLocation = `jsons`
 
 const lock = new AsyncLock({timeout:1000*3});
 
@@ -39,7 +39,7 @@ router.post('/create', async (req, res, next) => {
     //ファイル書き込み
 
     lock.acquire('create-lock',async()=>{
-        fs.writeFileSync(`jsons\\${questionId}.json`, questionJson, 'utf8');
+        fs.writeFileSync(`jsons/${questionId}.json`, questionJson, 'utf8');
         res.send({ questionsId: questionId });
     },(error,result) => {
         if(error){
@@ -63,7 +63,7 @@ router.get('/:id', (req, res, next) => {
 router.delete('/:id',async (req,res,next) =>{
 
     lock.acquire('delete-lock',async()=>{
-        fs.unlinkSync(`jsons\\${req.params.id}.json`);
+        fs.unlinkSync(`jsons/${req.params.id}.json`);
         console.log(`${req.params.id}.jsonを削除しました`)
         res.status(200).send();
     },(error,result)=>{
@@ -82,7 +82,7 @@ router.put('/addChoice/:id',(req,res,next)=>{
         const choices = questionJson.questions[0].choices;
         choices.push({id:choices.length,content:body.content,count:0});
         questionJson.questions[0].choices = choices;
-        fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
+        fs.writeFileSync(`${jsonsLocation}/${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         const NewQuestionJson = fileLeader(req.params.id);
         res.status(200).json(NewQuestionJson);
     },(error,result)=>{
@@ -99,7 +99,7 @@ router.post('/deadline/:id',(req,res,next)=>{
         const questionJson = fileLeader(req.params.id);
         questionJson.updateAt = now();
         questionJson.questions[0].deadlineFlag = true;
-        fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
+        fs.writeFileSync(`${jsonsLocation}/${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.status(200).send();
     },(error,result)=>{
         if(error){
@@ -115,7 +115,7 @@ router.put('/setting/addChoice/:id',(req,res,next)=>{
         const questionJson = fileLeader(req.params.id);
         questionJson.updateAt = now();
         questionJson.settings[1]=req.body;
-        fs.writeFileSync(`${jsonsLocation}\\${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
+        fs.writeFileSync(`${jsonsLocation}/${req.params.id}.json`, JSON.stringify(questionJson), 'utf8');
         res.status(200).send();
     }),(error,result)=>{
         if(error){
