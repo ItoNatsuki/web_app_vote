@@ -24,6 +24,7 @@ export default{
 [name="subject"]{
     width:100%;
     height: 50%;
+    word-wrap: break-word;
 }
 
 [name="count"]{
