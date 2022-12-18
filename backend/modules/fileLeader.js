@@ -10,7 +10,7 @@ const fs = require('fs');
 module.exports = (questionId => {
 
         const jsonsLocation = `jsons`
-        const questionJsonStr = fs.readFileSync(`${jsonsLocation}\\${questionId}.json`, 'utf8');
+        const questionJsonStr = fs.readFileSync(`${jsonsLocation}/${questionId}.json`, 'utf8');
         const questionJson = JSON.parse(questionJsonStr);
         return questionJson;
 });
