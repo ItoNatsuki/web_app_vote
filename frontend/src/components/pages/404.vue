@@ -2,7 +2,7 @@
 <div>
     <h1>404NotFound</h1>
     <h2>申し訳ございませんが、該当ページが見つからなかったため５秒後トップページに遷移します。</h2><br>
-    <a href="`${this.$base_url}`">自動的に遷移しない場合はこちらをクリックしてください。</a>
+    <a href="https://freedomwebpoll.com">自動的に遷移しない場合はこちらをクリックしてください。</a>
 </div>
 </template>
 
