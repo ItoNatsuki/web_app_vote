@@ -1,7 +1,5 @@
-/backend/bin/
+
 /backend/node_modules/
-/backend/public/
-/backend/views/
 /backend/package-lock.json
 /backend/jsons/
 
@@ -11,3 +9,6 @@
 /frontend/static/
 /frontend/.*
 /frontend/package-lock.json
+
+web_app_vote.code-workspace
+.vscode
