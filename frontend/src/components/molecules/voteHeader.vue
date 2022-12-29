@@ -1,10 +1,17 @@
 <template>
 <div id="header">
     <span id="title">FreedomWebPoll</span>
+     <formLink/>
 </div>
 </template>
 
 <script>
+import formLink from '@/components/atoms/formLink'
+export default{
+    components:{
+        formLink
+    }
+}
 </script>
 
 <style scoped>

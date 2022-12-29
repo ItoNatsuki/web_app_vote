@@ -1,16 +1,18 @@
 <template>
 <div id="header">
     <span id="title">FreedomWebPoll</span>
-
+    <formLink/>
     <modal-settings  @input="sendAddChoice" :checked="checked"></modal-settings>
 </div>
 </template>
 
 <script>
 import modalSettings from '@/components/molecules/modalSettings'
+import formLink from '@/components/atoms/formLink'
 export default{
     components:{
-        modalSettings
+        modalSettings,
+        formLink
     },
     props:[
         'checked'
